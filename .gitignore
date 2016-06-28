@@ -8,5 +8,6 @@
 !images/*
 !fonts/*
 !lang/*
+!lib/*
 # ...even if they are in subdirectories
 !*/
