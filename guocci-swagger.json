@@ -2,7 +2,7 @@
     "swagger": "2.0",
     "info": {
         "title": "Guocci API",
-        "description": "Easy REST API for Guocci project.",
+        "description": "A simple REST API for Guocci project.",
         "version": "1.0.0"
     },
     "host": "guocci.???",
@@ -16,8 +16,8 @@
     "paths": {
         "/sites": {
             "get": {
-                "summary": "Sites",
-                "description": "",
+                "description": "Returnes all sites from the system visible for current user",
+                "operationId": "getSites",
                 "tags": [
                     "Site"
                 ],
@@ -42,9 +42,8 @@
         },
         "/sites/{id}": {
             "get": {
-                "summary": "Site",
                 "description": "Selection of concrete site",
-                "operationId": "find site by id",
+                "operationId": "selectSite",
                 "parameters": [
                     {
                         "name": "id",
@@ -80,8 +79,8 @@
         },
         "/sites/{site_id}/instances": {
             "get": {
-                "summary": "Instance",
                 "description": "Returns all instances for the given site",
+                "operationId": "getInstances",
                 "parameters": [
                     {
                         "name": "site_id",
@@ -118,7 +117,6 @@
         },
         "/sites/{site_id}/instances/new": {
             "post": {
-                "summary": "Site",
                 "description": "Creation of the new instance",
                 "operationId": "addInstance",
                 "parameters": [
@@ -162,8 +160,50 @@
             }
         },
         "/sites/{site_id}/instances/{id}": {
+            "get": {
+                "description": "Returns selected instance.",
+                "operationId": "selectInstance",
+                "parameters": [
+                    {
+                        "name": "site_id",
+                        "in": "path",
+                        "description": "Id of site",
+                        "required": true,
+                        "type": "number",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of instance",
+                        "required": true,
+                        "type": "number",
+                        "format": "int64"
+                    }
+                ],
+                "tags": [
+                    "Instance"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Selected instance",
+                        "schema": {
+                            "items": {
+                                "$ref": "#/definitions/Instance"
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "items": {
+                                "$ref": "#/definitions/Error"
+                            }
+                        }
+                    }
+                }
+            },
             "delete": {
-                "summary": "Site",
                 "description": "Delete selected instance",
                 "operationId": "deleteInstance",
                 "parameters": [
@@ -185,11 +225,11 @@
                     }
                 ],
                 "tags": [
-                    "Instanceses"
+                    "Instance"
                 ],
                 "responses": {
                     "204": {
-                        "description": "pet deleted"
+                        "description": "instance deleted"
                     },
                     "default": {
                         "description": "unexpected error",
@@ -200,10 +240,93 @@
                 }
             }
         },
+        "/sites/{id}/appliances": {
+            "get": {
+                "description": "Selection of appliances",
+                "operationId": "getAppliances",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of site",
+                        "required": true,
+                        "type": "number",
+                        "format": "int64"
+                    }
+                ],
+                "tags": [
+                    "Appliance"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "An array of appliances",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Appliance"
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "items": {
+                                "$ref": "#/definitions/Error"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/sites/{site_id}/appliances/{id}": {
+            "get": {
+                "description": "Returns selected appliance.",
+                "operationId": "selectAppliance",
+                "parameters": [
+                    {
+                        "name": "site_id",
+                        "in": "path",
+                        "description": "Id of site",
+                        "required": true,
+                        "type": "number",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of appliance",
+                        "required": true,
+                        "type": "number",
+                        "format": "int64"
+                    }
+                ],
+                "tags": [
+                    "Appliance"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Selected appliance",
+                        "schema": {
+                            "items": {
+                                "$ref": "#/definitions/Appliance"
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "items": {
+                                "$ref": "#/definitions/Error"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/sites/{id}/flavours": {
             "get": {
-                "summary": "Flavour",
                 "description": "Selection of flavours",
+                "operationId": "getFlavours",
                 "parameters": [
                     {
                         "name": "id",
@@ -238,10 +361,55 @@
                 }
             }
         },
+        "/sites/{site_id}/flavours/{id}": {
+            "get": {
+                "description": "Returns selected flavour.",
+                "operationId": "selectFlavour",
+                "parameters": [
+                    {
+                        "name": "site_id",
+                        "in": "path",
+                        "description": "Id of site",
+                        "required": true,
+                        "type": "number",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of flavour",
+                        "required": true,
+                        "type": "number",
+                        "format": "int64"
+                    }
+                ],
+                "tags": [
+                    "Flavour"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Selected flavour",
+                        "schema": {
+                            "items": {
+                                "$ref": "#/definitions/Flavour"
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "items": {
+                                "$ref": "#/definitions/Error"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/sites/{site_id}/instances/{inst_id}/disks": {
             "get": {
-                "summary": "Disks",
                 "description": "Returns every disk related to this instance.",
+                "operationId": "getDisks",
                 "parameters": [
                     {
                         "name": "site_id",
@@ -286,8 +454,8 @@
         },
         "/sites/{site_id}/instances/{inst_id}/disks/{id}": {
             "get": {
-                "summary": "Disks",
                 "description": "Returns disk with id related to this instance.",
+                "operationId": "selectDisk",
                 "parameters": [
                     {
                         "name": "site_id",
@@ -321,7 +489,6 @@
                     "200": {
                         "description": "Selected disk",
                         "schema": {
-                            "type": "array",
                             "items": {
                                 "$ref": "#/definitions/Disk"
                             }
@@ -338,8 +505,8 @@
                 }
             },
             "delete": {
-                "summary": "Disks",
                 "description": "Remove selected disk with id from to this instance.",
+                "operationId": "deleteDisk",
                 "parameters": [
                     {
                         "name": "site_id",
@@ -370,21 +537,13 @@
                     "Disk"
                 ],
                 "responses": {
-                    "200": {
-                        "description": "An array of products",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/Disk"
-                            }
-                        }
+                    "204": {
+                        "description": "disk deleted"
                     },
                     "default": {
-                        "description": "Unexpected error",
+                        "description": "unexpected error",
                         "schema": {
-                            "items": {
-                                "$ref": "#/definitions/Error"
-                            }
+                            "$ref": "#/definitions/Error"
                         }
                     }
                 }
@@ -392,20 +551,20 @@
         },
         "/sites/{id}/storages": {
             "get": {
-                "summary": "Storages",
                 "description": "Returns every storage related to this site.",
+                "operationId": "getStorages",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "Id of storage",
+                        "description": "Id of site",
                         "required": true,
                         "type": "number",
                         "format": "int64"
                     }
                 ],
                 "tags": [
-                    "Sites"
+                    "Storage"
                 ],
                 "responses": {
                     "200": {
@@ -430,8 +589,8 @@
         },
         "/sites/{site_id}/instances/{inst_id}/interfaces": {
             "get": {
-                "summary": "Interfaces",
                 "description": "Returns every interface related to this instance.",
+                "operationId": "getInterfaces",
                 "parameters": [
                     {
                         "name": "site_id",
@@ -476,8 +635,8 @@
         },
         "/sites/{site_id}/instances/{inst_id}/interfaces/{id}": {
             "get": {
-                "summary": "Interfacess",
                 "description": "Returns an interface with id related to this instance.",
+                "operationId": "selectInterface",
                 "parameters": [
                     {
                         "name": "site_id",
@@ -527,8 +686,8 @@
                 }
             },
             "delete": {
-                "summary": "Intefraces",
                 "description": "Deletes selected interface from the given instance.",
+                "operationId": "deleteInterface",
                 "parameters": [
                     {
                         "name": "site_id",
@@ -573,8 +732,8 @@
         },
         "/sites/{id}/networks": {
             "get": {
-                "summary": "Networks",
                 "description": "Returns every network related to this instance.",
+                "operationId": "getNetworks",
                 "parameters": [
                     {
                         "name": "id",
@@ -586,7 +745,7 @@
                     }
                 ],
                 "tags": [
-                    "Sites"
+                    "Network"
                 ],
                 "responses": {
                     "200": {
@@ -611,8 +770,8 @@
         },
         "/user/info": {
             "get": {
-                "summary": "User",
                 "description": "Returns logged user info",
+                "operationId": "getUserInfo",
                 "tags": [
                     "User"
                 ],
@@ -621,7 +780,7 @@
                         "description": "User info",
                         "schema": {
                             "items": {
-                                "$ref": "#/definitions/User"
+                                "$ref": "#/definitions/UserInfo"
                             }
                         }
                     },
@@ -645,11 +804,11 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "An array of products",
+                        "description": "An array of ssh_keys",
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/Instance"
+                                "$ref": "#/definitions/UserCredentials"
                             }
                         }
                     },
@@ -786,7 +945,7 @@
                 }
             ]
         },
-        "User": {
+        "UserInfo": {
             "type": "object",
             "properties": {
                 "id": {
@@ -802,9 +961,22 @@
                     "type": "string",
                     "format": "email",
                     "description": "Users email."
+                }
+            }
+        },
+        "UserCredentials": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "Unique identifier for the user."
                 },
-                "ssh_key": {
-                    "type": "string",
+                "ssh_keys": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
                     "description": "Imported SSH key."
                 }
             }
