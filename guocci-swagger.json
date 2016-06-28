@@ -1,0 +1,912 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Guocci API",
+        "description": "Easy REST API for Guocci project.",
+        "version": "1.0.0"
+    },
+    "host": "guocci.???",
+    "schemes": [
+        "https"
+    ],
+    "basePath": "/v1",
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/sites": {
+            "get": {
+                "summary": "Sites",
+                "description": "",
+                "tags": [
+                    "Site"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "An array of sites",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Site"
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/sites/{id}": {
+            "get": {
+                "summary": "Site",
+                "description": "Selection of concrete site",
+                "operationId": "find site by id",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of site",
+                        "required": true,
+                        "type": "number",
+                        "format": "int64"
+                    }
+                ],
+                "tags": [
+                    "Site"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "site response",
+                        "schema": {
+                            "items": {
+                                "$ref": "#/definitions/Site"
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "items": {
+                                "$ref": "#/definitions/Error"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/sites/{site_id}/instances": {
+            "get": {
+                "summary": "Instance",
+                "description": "Returns all instances for the given site",
+                "parameters": [
+                    {
+                        "name": "site_id",
+                        "in": "path",
+                        "description": "Id of site",
+                        "required": true,
+                        "type": "number",
+                        "format": "int32"
+                    }
+                ],
+                "tags": [
+                    "Instance"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "An array of instances for given site",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Instance"
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "items": {
+                                "$ref": "#/definitions/Error"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/sites/{site_id}/instances/new": {
+            "post": {
+                "summary": "Site",
+                "description": "Creation of the new instance",
+                "operationId": "addInstance",
+                "parameters": [
+                    {
+                        "name": "site_id",
+                        "in": "path",
+                        "description": "Id of site",
+                        "required": true,
+                        "type": "number",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "instance",
+                        "in": "body",
+                        "description": "Instance we want to create",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/NewInstance"
+                        }
+                    }
+                ],
+                "tags": [
+                    "Instance"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "instance response",
+                        "schema": {
+                            "$ref": "#/definitions/Instance"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "items": {
+                                "$ref": "#/definitions/Error"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/sites/{site_id}/instances/{id}": {
+            "delete": {
+                "summary": "Site",
+                "description": "Delete selected instance",
+                "operationId": "deleteInstance",
+                "parameters": [
+                    {
+                        "name": "site_id",
+                        "in": "path",
+                        "description": "Id of site",
+                        "required": true,
+                        "type": "number",
+                        "format": "double"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of instance.",
+                        "required": true,
+                        "type": "number",
+                        "format": "double"
+                    }
+                ],
+                "tags": [
+                    "Instanceses"
+                ],
+                "responses": {
+                    "204": {
+                        "description": "pet deleted"
+                    },
+                    "default": {
+                        "description": "unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/sites/{id}/flavours": {
+            "get": {
+                "summary": "Flavour",
+                "description": "Selection of flavours",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of site",
+                        "required": true,
+                        "type": "number",
+                        "format": "int64"
+                    }
+                ],
+                "tags": [
+                    "Flavour"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "An array of flavours",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Flavour"
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "items": {
+                                "$ref": "#/definitions/Error"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/sites/{site_id}/instances/{inst_id}/disks": {
+            "get": {
+                "summary": "Disks",
+                "description": "Returns every disk related to this instance.",
+                "parameters": [
+                    {
+                        "name": "site_id",
+                        "in": "path",
+                        "description": "Id of site",
+                        "required": true,
+                        "type": "number",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "inst_id",
+                        "in": "path",
+                        "description": "Id of instance",
+                        "required": true,
+                        "type": "number",
+                        "format": "int64"
+                    }
+                ],
+                "tags": [
+                    "Disk"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "An array of disks for the instance",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Disk"
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "items": {
+                                "$ref": "#/definitions/Error"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/sites/{site_id}/instances/{inst_id}/disks/{id}": {
+            "get": {
+                "summary": "Disks",
+                "description": "Returns disk with id related to this instance.",
+                "parameters": [
+                    {
+                        "name": "site_id",
+                        "in": "path",
+                        "description": "Id of site",
+                        "required": true,
+                        "type": "number",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "inst_id",
+                        "in": "path",
+                        "description": "Id of instance",
+                        "required": true,
+                        "type": "number",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of disk",
+                        "required": true,
+                        "type": "number",
+                        "format": "int64"
+                    }
+                ],
+                "tags": [
+                    "Disk"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Selected disk",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Disk"
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "items": {
+                                "$ref": "#/definitions/Error"
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Disks",
+                "description": "Remove selected disk with id from to this instance.",
+                "parameters": [
+                    {
+                        "name": "site_id",
+                        "in": "path",
+                        "description": "Id of site",
+                        "required": true,
+                        "type": "number",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "inst_id",
+                        "in": "path",
+                        "description": "Id of instance",
+                        "required": true,
+                        "type": "number",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of disk",
+                        "required": true,
+                        "type": "number",
+                        "format": "int64"
+                    }
+                ],
+                "tags": [
+                    "Disk"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "An array of products",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Disk"
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "items": {
+                                "$ref": "#/definitions/Error"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/sites/{id}/storages": {
+            "get": {
+                "summary": "Storages",
+                "description": "Returns every storage related to this site.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of storage",
+                        "required": true,
+                        "type": "number",
+                        "format": "int64"
+                    }
+                ],
+                "tags": [
+                    "Sites"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "An array of storages",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Storage"
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "items": {
+                                "$ref": "#/definitions/Error"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/sites/{site_id}/instances/{inst_id}/interfaces": {
+            "get": {
+                "summary": "Interfaces",
+                "description": "Returns every interface related to this instance.",
+                "parameters": [
+                    {
+                        "name": "site_id",
+                        "in": "path",
+                        "description": "Id of site",
+                        "required": true,
+                        "type": "number",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "inst_id",
+                        "in": "path",
+                        "description": "Id of instance",
+                        "required": true,
+                        "type": "number",
+                        "format": "int64"
+                    }
+                ],
+                "tags": [
+                    "Interface"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "An array of interfaces",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Interface"
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "items": {
+                                "$ref": "#/definitions/Error"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/sites/{site_id}/instances/{inst_id}/interfaces/{id}": {
+            "get": {
+                "summary": "Interfacess",
+                "description": "Returns an interface with id related to this instance.",
+                "parameters": [
+                    {
+                        "name": "site_id",
+                        "in": "path",
+                        "description": "Id of site",
+                        "required": true,
+                        "type": "number",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "inst_id",
+                        "in": "path",
+                        "description": "Id of instance",
+                        "required": true,
+                        "type": "number",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of network",
+                        "required": true,
+                        "type": "number",
+                        "format": "int64"
+                    }
+                ],
+                "tags": [
+                    "Interface"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Selected interface",
+                        "schema": {
+                            "items": {
+                                "$ref": "#/definitions/Network"
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "items": {
+                                "$ref": "#/definitions/Error"
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Intefraces",
+                "description": "Deletes selected interface from the given instance.",
+                "parameters": [
+                    {
+                        "name": "site_id",
+                        "in": "path",
+                        "description": "Id of site",
+                        "required": true,
+                        "type": "number",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "inst_id",
+                        "in": "path",
+                        "description": "Id of instance",
+                        "required": true,
+                        "type": "number",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of Interface",
+                        "required": true,
+                        "type": "number",
+                        "format": "int64"
+                    }
+                ],
+                "tags": [
+                    "Interface"
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Interface deleted"
+                    },
+                    "default": {
+                        "description": "unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/sites/{id}/networks": {
+            "get": {
+                "summary": "Networks",
+                "description": "Returns every network related to this instance.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of site",
+                        "required": true,
+                        "type": "number",
+                        "format": "int64"
+                    }
+                ],
+                "tags": [
+                    "Sites"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "An array of networks",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Network"
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "items": {
+                                "$ref": "#/definitions/Error"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/user/info": {
+            "get": {
+                "summary": "User",
+                "description": "Returns logged user info",
+                "tags": [
+                    "User"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User info",
+                        "schema": {
+                            "items": {
+                                "$ref": "#/definitions/User"
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "items": {
+                                "$ref": "#/definitions/Error"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/user/credentials": {
+            "get": {
+                "summary": "User",
+                "description": "Returns an ssh key of user",
+                "tags": [
+                    "User"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "An array of products",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Instance"
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "items": {
+                                "$ref": "#/definitions/Error"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "Site": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Unique identifier for the site."
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Name of the site."
+                },
+                "country": {
+                    "type": "string",
+                    "description": "Country ISO code."
+                },
+                "endpoint": {
+                    "type": "string",
+                    "description": "Url of sites endpoint."
+                }
+            }
+        },
+        "Appliance": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "Unique identifier for the appliance"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Name of the appliance."
+                },
+                "mpuri": {
+                    "type": "string",
+                    "description": "Mpuri of the appliance."
+                },
+                "vo": {
+                    "type": "string",
+                    "description": "Virtual organization providing the appliance."
+                }
+            }
+        },
+        "Flavour": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "Unique identifier for the flavour."
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Name of the flavour."
+                },
+                "memory": {
+                    "type": "integer",
+                    "format": "int32",
+                    "minimum": 1,
+                    "maximum": 16000,
+                    "description": "Size of the memory given. In MB."
+                },
+                "vcpu": {
+                    "type": "integer",
+                    "format": "int32",
+                    "minimum": 1,
+                    "maximum": 20,
+                    "description": "Number of virtual CPU cores."
+                },
+                "cpu": {
+                    "type": "integer",
+                    "format": "int32",
+                    "minimum": 1,
+                    "maximum": 20,
+                    "description": "Number of physical CPU cores."
+                }
+            }
+        },
+        "NewInstance": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "Name of the instance."
+                },
+                "ssh_key": {
+                    "type": "string",
+                    "description": "Imported SSH key."
+                },
+                "appliance_id": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "ID of appliance used for this instance."
+                },
+                "flavor_id": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "ID of flavor used for this instance."
+                }
+            }
+        },
+        "Instance": {
+            "type": "object",
+            "allOf": [
+                {
+                    "$ref": "#/definitions/NewInstance"
+                },
+                {
+                    "required": [
+                        "id"
+                    ],
+                    "properties": {
+                        "id": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                }
+            ]
+        },
+        "User": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "Unique identifier for the user."
+                },
+                "name": {
+                    "type": "string",
+                    "description": "User name."
+                },
+                "email": {
+                    "type": "string",
+                    "format": "email",
+                    "description": "Users email."
+                },
+                "ssh_key": {
+                    "type": "string",
+                    "description": "Imported SSH key."
+                }
+            }
+        },
+        "Storage": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "Unique identifier for the storage."
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Storage name."
+                },
+                "size": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "Size of the storage in MB."
+                },
+                "type": {
+                    "type": "string"
+                },
+                "state": {
+                    "type": "string"
+                }
+            }
+        },
+        "Disk": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "storage_id": {
+                    "type": "integer",
+                    "format": "int32"
+                }
+            }
+        },
+        "Network": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "Unique identifier for the network."
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Network name."
+                },
+                "address_pool": {
+                    "type": "string"
+                },
+                "mask": {
+                    "type": "string"
+                },
+                "wlan_id": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "state": {
+                    "type": "string"
+                }
+            }
+        },
+        "Interface": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "network_id": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "address": {
+                    "type": "string"
+                }
+            }
+        },
+        "Error": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "fields": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
